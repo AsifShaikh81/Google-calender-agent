@@ -1,10 +1,10 @@
 # project plan
 
 [v] project setup
-[] setup LLM
-[] setup the tools - create event tool, get event tool
+[v] setup LLM
+[v] setup the tools - create event tool, get event tool
 
-[] Build the graph
+[v] Build the graph
 [] implement tools - connect to google calender
 [] Test the agent
 [] Terminal Ui
