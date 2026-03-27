@@ -1,6 +1,6 @@
 # project plan
 
-[] project setup
+[v] project setup
 [] setup LLM
 [] setup the tools - create event tool, get event tool
 
