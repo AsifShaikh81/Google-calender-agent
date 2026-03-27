@@ -1,6 +1,8 @@
 import { ChatGroq } from "@langchain/groq";
+import { CreateEvent, GetEvents } from "./tools";
 
-const tools:any = []
+const tools = [CreateEvent,GetEvents]
+
 
 const LLM = new ChatGroq({
   model: "openai/gpt-oss-120b",
