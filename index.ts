@@ -52,9 +52,9 @@ const app = graph.compile()
 
 async function main() {
   const result = await app.invoke({
-    messages:[{role:'user',content:'do i have any meeting scheduled?'}]
+    messages:[{role:'user',content:`do i have any meeting today?`}]
   })
-
+/* 1. title: project discussion ,2. time: start: 8pm ,end: 10pm 3. attendees: Asif(ceo, shaikhasi5690@gmail.com), john (manager, john@gmail.com) 4. notes:today's discussion is about previous project 5. timezone: Asia/kolkata */
   console.log('AI: ', result.messages[result.messages.length - 1]?.content)
 }
 main()
