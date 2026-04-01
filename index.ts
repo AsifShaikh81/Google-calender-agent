@@ -5,6 +5,14 @@ import { ToolNode } from "@langchain/langgraph/prebuilt";
 import type { AIMessage } from "@langchain/core/messages";
 import readline from 'readline/promises'
 // import { content } from "googleapis/build/src/apis/content";
+// import {CallbackHandler} from 'langfuse-langchain'
+//! integrqte langfuse ----> issue
+/* const langfuseHandler = new CallbackHandler({
+  publicKey:process.env.LANGFUSE_PUBLIC_KEY,
+  secretKey:process.env.LANGFUSE_SECRET_KEY,
+  baseUrl:process.env.LANGFUSE_BASE_URL
+}) */
+
 // DEFINE TOOL
 const tools = [CreateEvent, GetEvents];
 
@@ -55,7 +63,7 @@ const checkpointer = new MemorySaver()
 const app = graph.compile({checkpointer})
 
 async function main() {
-  let config =  {configurable :{thread_id:'1'}}
+  let config =  {configurable :{thread_id:'1'}, /* callbacks:[langfuseHandler] */}
   const rl = readline.createInterface({input:process.stdin, output:process.stdout})
    
   while(true){
@@ -80,7 +88,8 @@ async function main() {
         `},
       {role:'user',content:userInput}]
   },
-config
+config,
+
 )
 /* 1. title: project discussion ,2. time: start: 8pm ,end: 10pm 3. attendees: Asif(ceo, shaikhasi5690@gmail.com), john (manager, john@gmail.com) 4. notes:today's discussion is about previous project 5. timezone: Asia/kolkata */
   console.log('AI: ', result.messages[result.messages.length - 1]?.content)
