@@ -30,14 +30,14 @@ app.get("/auth", (req, res) => {
 
   
   res.redirect(url);
-  console.log("url",url)
+  // console.log("url",url)
 });
 
 app.get("/callback", async (req, res) => {
   const code = req.query.code as string;
   const {tokens} = await oauth2Client.getToken(code)
 
-  console.log("tokens",tokens)
+  // console.log("tokens",tokens)
 
   // exchange code with access token/refresh token
   res.send("connected , You can close this tab now");

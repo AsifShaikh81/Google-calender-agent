@@ -1,10 +1,10 @@
 import { ChatGroq } from "@langchain/groq";
-import { CreateEvent, GetEvents } from "./tools";
+import { CreateEvent, GetEvents } from "./tools.ts";
 import { END, MemorySaver, MessagesAnnotation, StateGraph } from "@langchain/langgraph";
 import { ToolNode } from "@langchain/langgraph/prebuilt";
 import type { AIMessage } from "@langchain/core/messages";
 import readline from 'readline/promises'
-import { content } from "googleapis/build/src/apis/content";
+// import { content } from "googleapis/build/src/apis/content";
 // DEFINE TOOL
 const tools = [CreateEvent, GetEvents];
 

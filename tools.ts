@@ -30,7 +30,7 @@ export const GetEvents = tool(
      
 
     const { timeMax, timeMin, q } = params;
-    console.log("params", params);
+    // console.log("params", params);
     try {
       const response = await calendar.events.list({
         calendarId: "primary",
@@ -119,7 +119,7 @@ export const CreateEvent = tool(
       }    
 
      })
-     console.log('create-evt',response)
+    //  console.log('create-evt',response)
     // hardcoded
     if(response.statusText === "OK"){
       return "meeting has been created"
