@@ -9,7 +9,10 @@ const oauth2Client = new google.auth.OAuth2(
   process.env.GOOGLE_CLIENT_SECRET,
   process.env.GOOGLE_REDIRECT_URL,
 );
-oauth2Client.setCredentials(tokens);
+oauth2Client.setCredentials({
+  access_token:process.env.GOOGLE_ACCESS_TOKEN,
+  refresh_token:process.env.GOOGLE_REFRESH_TOKEN
+});
 
 const calendar = google.calendar({ version: "v3", auth: oauth2Client });
 
@@ -67,10 +70,10 @@ export const GetEvents = tool(
         ),
       timeMin: z
         .string()
-        .describe("the from datetime in UTC format for the event"),
+        .describe("the 'from' datetime for the event"),
       timeMax: z
         .string()
-        .describe("the to datetime in UTC format for the event"),
+        .describe("the 'to' datetime to get event"),
     }),
   },
 );
@@ -129,12 +132,12 @@ export const CreateEvent = tool(
     schema: z.object({
       summary: z.string().describe("Title of the event"),
       start: z.object({
-        dateTime: z.string().describe("Start datetime in UTC format"),
-        timeZone: z.string().describe("Timezone e.g. Asia/Kolkata"),
+        dateTime: z.string().describe("Start datetime"),
+        timeZone: z.string().describe("Current IANA timezone"),
       }),
       end: z.object({
-        dateTime: z.string().describe("End datetime in UTC format"),
-        timeZone: z.string().describe("Timezone e.g. Asia/Kolkata"),
+        dateTime: z.string().describe("End datetime"),
+        timeZone: z.string().describe("Current IANA timezone"),
       }),
       attendees: z.array(
         z.object({

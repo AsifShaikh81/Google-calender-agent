@@ -6,8 +6,9 @@
 
 [v] Build the graph
 [] implement tools - connect to google calender
-   [] get events
-   [] create events
-[] Test the agent
-[] Terminal Ui
-[] Add memory 
+   [v] get events
+   [v] create events
+[v] Test the agent
+[v] Terminal Ui
+[v] Add memory 
+[] fix the agent timeZone

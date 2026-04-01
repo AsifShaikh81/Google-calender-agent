@@ -1,9 +1,10 @@
 import { ChatGroq } from "@langchain/groq";
 import { CreateEvent, GetEvents } from "./tools";
-import { END, MessagesAnnotation, StateGraph } from "@langchain/langgraph";
+import { END, MemorySaver, MessagesAnnotation, StateGraph } from "@langchain/langgraph";
 import { ToolNode } from "@langchain/langgraph/prebuilt";
 import type { AIMessage } from "@langchain/core/messages";
-
+import readline from 'readline/promises'
+import { content } from "googleapis/build/src/apis/content";
 // DEFINE TOOL
 const tools = [CreateEvent, GetEvents];
 
@@ -47,14 +48,45 @@ const graph = new StateGraph(MessagesAnnotation)
   })
   .addEdge("tools", "assistant");
 
+// Memory added
+const checkpointer = new MemorySaver()
+
 // invoke
-const app = graph.compile()
+const app = graph.compile({checkpointer})
 
 async function main() {
-  const result = await app.invoke({
-    messages:[{role:'user',content:`do i have any meeting today?`}]
-  })
+  let config =  {configurable :{thread_id:'1'}}
+  const rl = readline.createInterface({input:process.stdin, output:process.stdout})
+   
+  while(true){
+    const userInput = await rl.question('You: ')
+    if(userInput === '/bye'){ 
+      break
+    }
+   // get current local time
+    const currentDateTime =  new Date().toLocaleString('en-us',{
+      hour: 'numeric',
+    minute: '2-digit',
+    hour12: true // Explicitly request 12-hour format
+
+    }) 
+    // timezone
+    const timeZoneString =  Intl.DateTimeFormat().resolvedOptions().timeZone
+    const result = await app.invoke({
+    messages:[
+      {role:'system', content:`you are a google calendar agent created by Asifshaikh
+      Current datetime:${currentDateTime}
+      Current timezone string:${timeZoneString}
+        `},
+      {role:'user',content:userInput}]
+  },
+config
+)
 /* 1. title: project discussion ,2. time: start: 8pm ,end: 10pm 3. attendees: Asif(ceo, shaikhasi5690@gmail.com), john (manager, john@gmail.com) 4. notes:today's discussion is about previous project 5. timezone: Asia/kolkata */
   console.log('AI: ', result.messages[result.messages.length - 1]?.content)
-}
+} 
+rl.close()
+  }
+
+
 main()
